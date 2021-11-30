@@ -81,6 +81,7 @@ let filemodel = {
             if (file_upload_type.indexOf(file_upload_data.type) == 1) {
                 fs.createReadStream(file_upload_data.path)
                 .pipe(fs.createWriteStream(path.join(__dirname, '../../public/resources/video/', file_upload_name)))
+                  
                 return {
                     code:200,
                     msg:'ok',
@@ -137,7 +138,7 @@ let filemodel = {
                     }) 
                    
                 }catch(err) {
-                    throw err
+                    if (err)throw err
                 }
 
             })
