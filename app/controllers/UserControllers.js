@@ -102,6 +102,7 @@ let UserControllers = {
 
     //删除用户
     post_deluser: function (req, res, nex) {
+        
         let reg = /^1[3-9][0-9]{9}$/;
         if (!reg.test(req.body.phone)) {
             res.send({
@@ -120,6 +121,7 @@ let UserControllers = {
     //修改用户信息
     post_alteruser : function(req,res,nex) {
         
+
         let reg = /^1[3-9][0-9]{9}$/;
         if (!req.body.phone || !reg.test(req.body.phone)) {
             res.send({
@@ -218,7 +220,7 @@ let UserControllers = {
             })
             return;
         }
-        
+      
         user_model.alterpwd(phone,statpwd,updatepwd).then(response => {
             res.send(response);
         },err => {
