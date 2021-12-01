@@ -60,7 +60,7 @@ let CourseControllers = {
     //编辑课程
     post_editcourses: function (req, res, next) {
         let editcourses_data = req.body
-        console.log(editcourses_data);
+        
         if (Object.values(editcourses_data).some((i) => i === undefined)) {
             res.send({
                 code:404,
@@ -143,7 +143,7 @@ let CourseControllers = {
     post_foundchapter: function (req, res, next) {
         course_model.post_foundchapter(req.body).then(
             result => {
-                console.log(result);
+       
                 res.send(result)
             }
         )
@@ -241,7 +241,7 @@ let CourseControllers = {
     //添加节
     post_addsection(req, res, next) {
 
-        console.log(req.body);
+
         course_model.addsection(req.body).then(
             result => {
                 res.send(result)

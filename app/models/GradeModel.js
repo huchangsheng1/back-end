@@ -5,11 +5,11 @@ let GradeModel = {
     //创建班级
     createModel(gname, uid, gArr) {
         let date = new Date();
-        let datatiem = date.getFullYear()+1;
+        let datatiem = date.getMonth()+1;
         if (datatiem = 13) {
             datatiem = 1
         }
-        let c_time = datatiem + '-' + date.getMonth() + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+        let c_time = date.getFullYear() + '-' + datatiem + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
         return new Promise((resolve, reject) => {
             try {
                 this.mydb.find('st_grades', ['gname'], 'gname=?', [gname])

@@ -16,20 +16,20 @@ let UserModel = {
                 , 'phone=? and st_users.rid=st_role.rid', [data.phone])
                     .then(
                         async res => {
-                            let nickname = res[0].nickname;
-                            let gid = res[0].gid;
-                            let baseUrl = this.baseUrl;
-                            let headimg = `${baseUrl}/img/userimg/`+res[0].head_img;
-                            if (!headimg) {
-                                headimg = 'default.jpg';
-                            }
+                            
                             if (res instanceof Array && res.length == 0) {
                                 reslove({
                                     code: 503,
                                     mes: 'user is null'
                                 })
                             } else {
-                                 
+                                let nickname = res[0].nickname;
+                                let gid = res[0].gid;
+                                let baseUrl = this.baseUrl;
+                                let headimg = `${baseUrl}/img/userimg/`+res[0].head_img;
+                                if (!headimg) {
+                                    headimg = 'default.jpg';
+                                }
                                 if (data.loginblo == 'true') {
                                     smsjson.forEach((one,key) => {
                                         

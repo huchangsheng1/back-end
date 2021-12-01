@@ -30,11 +30,19 @@ router.use(function (req, res, next) {
     controllerobj = require(`../app/controllers/${controllerName}Controllers`)
     
   } catch (err) {
+    res.send({
+      code : 501,
+      mes : '服务异常'
+    })
     throw err;
   }
   if (controllerobj[actionName]) {
     controllerobj[actionName](req, res, next);
   } else {
+    res.send({
+      code : 501,
+      mes : '服务异常'
+    })
     throw new Error(`Request Method ${controllerName} [${actionName}]`);
   }
 })
