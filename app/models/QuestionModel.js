@@ -36,10 +36,9 @@ let questionDB = {
 
                     let topicsObj = {}
                     for (let x = 0; x < topics.length; x++) {
-
                         let courseObj = {}
                         courses.forEach(val => {
-                            if (topics[x]['tid'] == val['tid']) {
+                            if (topics[x]['tid'] == val['tid'])  {
                                 courseObj = Object.assign(val, topics[x]);
                             }
                         })
@@ -87,6 +86,7 @@ let questionDB = {
                         if (topicsObj[topics[x]['type_id']]) {
                             topicsObj[topics[x]['type_id']].push(courseObj)
                         } else {
+                            
                             topicsObj[topics[x]['type_id']] = [];
                             topicsObj[topics[x]['type_id']].push(courseObj)
                         }

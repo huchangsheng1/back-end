@@ -28,7 +28,7 @@ let ExamControllers = {
     //题库随机导入考题 
     post_questions: function (req, res, next) {
         let data = req.body;
-        // console.log(data);
+        console.log(data,11111);
         exam_model.post_questions(data, req.userdata.uid).then(
             result => {
                 if (result == '410') {

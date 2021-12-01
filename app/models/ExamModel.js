@@ -159,9 +159,9 @@ let ExamDB = {
 
                 }).then(
                     rest => {
-                        if (JSON.stringify({}) != '{}') {
-
-                            if (rest['1'] != '' && rest['2'] != '' && rest['3'] != '' && rest['4'] != '' && rest['5'] != '') {
+                        // if (JSON.stringify({}) != '{}') {
+                            if (rest['1'].length != 0 && rest['2'].length != 0 && rest['3'].length != 0 && rest['4'].length != 0 && rest['5'].length != 0) {
+                               
                                 questions.push(rest)
 
                                 // 考试信息存储
@@ -176,11 +176,11 @@ let ExamDB = {
                                         }
                                     )
                             } else {
-                                resolve({ code: 411, msg: '请填写相应考题' })
+                                resolve({ code: 411, msg: '题库中考题不足，请添加该课程的考题' })
                             }
                       
                            
-                        }
+                        // }
 
 
                     }
@@ -315,7 +315,6 @@ let ExamDB = {
                 let multiPromise = await new Promise(async (reso, rej) => {
                     for (let x = 0; x < test_jsonObj['2'].length; x++) {
                         let item = test_jsonObj['2'][x];
-                        console.log(test_jsonObj['2']);
                         let t_names = await this.mydb.select('st_topic', 't_names', `tid=${item['tid']}`);
 
                         t_names.forEach(val => {
@@ -423,40 +422,40 @@ let ExamDB = {
                 let topicObjs = {}
                 data.questions.forEach(val => {
                     val['topics'].forEach(item => {
-                        
+                        console.log(item);
                         if (val['examtype'] == '' || item['stem'] == '' || item['content'] == '' || item['answer'] == '' || item['score'] == '') {
                             resolve('cannot be empty');
                         }
 
                         // 修改题库中题目
-                        let tnames = item['stem'] + '|' + item['content'];
-                        if (val['examtype'] == 1 || val['examtype'] == 2) {
-                            this.mydb.alter('st_topic', { uid: uid, course_id: data.courseid, t_names: tnames, t_answer: item['answer'], type_id: val['examtype'], create_time: updatetimes }, `tid=${item['tid']}`)
-                                .then(
-                                    sresult => {
-                                    }
-                                )
-                        } else {
-                            this.mydb.alter('st_topic', { uid: uid, course_id: data.courseid, t_names: item['stem'], t_answer: item['answer'], type_id: val['examtype'], create_time: updatetimes }, `tid=${item['tid']}`)
-                                .then(
-                                    sresult => {
-                                    }
-                                )
-                        }
+                        // let tnames = item['stem'] + '|' + item['content'];
+                        // if (val['examtype'] == 1 || val['examtype'] == 2) {
+                        //     this.mydb.alter('st_topic', { uid: uid, course_id: data.courseid, t_names: tnames, t_answer: item['answer'], type_id: val['examtype'], create_time: updatetimes }, `tid=${item['tid']}`)
+                        //         .then(
+                        //             sresult => {
+                        //             }
+                        //         )
+                        // } else {
+                        //     this.mydb.alter('st_topic', { uid: uid, course_id: data.courseid, t_names: item['stem'], t_answer: item['answer'], type_id: val['examtype'], create_time: updatetimes }, `tid=${item['tid']}`)
+                        //         .then(
+                        //             sresult => {
+                        //             }
+                        //         )
+                        // }
 
 
-                        let topicObj = { tid: '', t_answer: '', t_score: '' };
+                        // let topicObj = { tid: '', t_answer: '', t_score: '' };
 
-                        topicObj['tid'] = item['tid'];
-                        topicObj['t_answer'] = item['answer'];
-                        topicObj['t_score'] = item['score'];
+                        // topicObj['tid'] = item['tid'];
+                        // topicObj['t_answer'] = item['answer'];
+                        // topicObj['t_score'] = item['score'];
 
-                        if (topicObjs[val['examtype']]) {
-                            topicObjs[val['examtype']].push(topicObj)
-                        } else {
-                            topicObjs[val['examtype']] = [];
-                            topicObjs[val['examtype']].push(topicObj)
-                        }
+                        // if (topicObjs[val['examtype']]) {
+                        //     topicObjs[val['examtype']].push(topicObj)
+                        // } else {
+                        //     topicObjs[val['examtype']] = [];
+                        //     topicObjs[val['examtype']].push(topicObj)
+                        // }
 
                     })
                 });
@@ -466,12 +465,12 @@ let ExamDB = {
             
 
                 // 修改后的考试存入考试表中
-                this.mydb.alter('st_test', { test_json: JSON.stringify(topicArr), test_name: data.testname, gid: data.gid, course_id: data.courseid, uid: uid, stat_time: data.statime, end_time: data.endtime, full_score: data.fullscore, release_time: updatetimes, release_state: 0 }, `test_key=${data.test_key}`)
-                    .then(
-                        result => {
-                            resolve('alter success');
-                        }
-                    )
+                // this.mydb.alter('st_test', { test_json: JSON.stringify(topicArr), test_name: data.testname, gid: data.gid, course_id: data.courseid, uid: uid, stat_time: data.statime, end_time: data.endtime, full_score: data.fullscore, release_time: updatetimes, release_state: 0 }, `test_key=${data.test_key}`)
+                //     .then(
+                //         result => {
+                //             resolve('alter success');
+                //         }
+                //     )
             })
         } catch (err) {
             throw (err)
@@ -596,13 +595,11 @@ let ExamDB = {
 
     //考试场次信息渲染(学生)
     get_stuexameach: function (data) {
-        console.log(data)
         try {
             return new Promise((resolve, reject) => {
                 this.mydb.select('st_test', 'test_key, test_name, stat_time, end_time', `course_id=${data['course_id']} AND release_state=1`)
                     .then(
                         result => {
-                            console.log(result)
                             let testArr = []
                             let updatetimes = sd.format(new Date(Date.now() - 1000 * 60 * 5), 'YYYY-MM-DD HH:mm:ss');
                             let updatetimes2 = sd.format(new Date(Date.now()), 'YYYY-MM-DD HH:mm:ss');
