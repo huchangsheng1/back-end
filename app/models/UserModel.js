@@ -217,16 +217,19 @@ let UserModel = {
 
     //删除用户学生或教师
     post_deluserModel : function (data,req) {
+        
         return new Promise(async (resolve,reject) =>{
             try {
-                await this.select('st_users',['rid','phone'],'phone=?',[data.phone]).then(res => {
+                await this.mydb.select('st_users',['rid','phone'],'phone=?',[data.phone]).then(res => {
                     if  (res[0].rid == 1) {
                         resolve({
                             code : 4013,
                             mes : 'you is not power'
                         })
+                        return;
                     }
                 })
+                
                 this.mydb.delete('st_users','phone=?',[data.phone]).then(
                     res => {
                         if (res.affectedRows == 0) {
@@ -277,8 +280,11 @@ let UserModel = {
                             })
                         }
                     })
-                
+                    
                    data.password = this.mycrypto.cryptedFn(String(data.password));
+                   if (!data.gid) {
+                       data.gid = 0;
+                   }
                    this.mydb.alter('st_users',data,'phone=?',[phone]).then(res => {
                        if (res.affectedRows != 0) {
                         try {
@@ -439,16 +445,24 @@ let UserModel = {
 
         return new Promise(async (resolve,reject) => {
             try {
-              await this.mydb.select('st_users','phone','phone = ?',[phone]).then(res => {
+              let rid = 4;
+              await this.mydb.select('st_users',['phone','rid'],'phone = ?',[phone]).then(res => {
                 if (res.length == 0) {
                     resolve({
                         code : 503,
                         mes : 'user desc phone is not null'
                     })
                     return ;
-                }
+                   }
+                   rid = res[0].rid;
                })
                if (updatepwd == 123456) {
+                    if (rid == 1) {
+                        resolve({
+                            code : 4013,
+                            mes : 'you is not power'
+                        })
+                    }
                     updatepwd = this.mycrypto.cryptedFn(String(updatepwd));
                    this.mydb.alter('st_users',{password:`${updatepwd}`},'phone=?',[phone]).then(res => {
                         if (res.affectedRows != 0) {
@@ -461,10 +475,9 @@ let UserModel = {
                        reject(err);
                    })
                }else {
-                
                    updatepwd = this.mycrypto.cryptedFn(String(updatepwd));
                    statpwd = this.mycrypto.cryptedFn(String(statpwd))
-                   await this.mydb.select('st_users','phone','phone=? and password=?',[phone,statpwd])
+                   await this.mydb.select('st_users',['phone','rid'],'phone=? and password=?',[phone,statpwd])
                    .then(res => {
                         if (res.length == 0) {
                             resolve({
