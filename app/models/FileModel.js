@@ -94,6 +94,7 @@ let filemodel = {
 
             }
             
+            
             fs.createReadStream(file_upload_data.path)
             .pipe(fs.createWriteStream(path.join(__dirname, '../../public/resources/ppt/', file_upload_name)))
             return {
