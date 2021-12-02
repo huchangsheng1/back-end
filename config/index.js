@@ -8,7 +8,7 @@ module.exports = {
         charset:'utf8',
         acquireTimeout:'15000'
     },
-    baseUrl :'http://localhost:3000'
+    baseUrl :'hcs998.top'
     ,
     token: {                                //token验证
         secretkey: 'jwtkey',                  //秘钥
