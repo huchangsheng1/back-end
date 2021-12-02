@@ -39,10 +39,6 @@ router.use(function (req, res, next) {
   if (controllerobj[actionName]) {
     controllerobj[actionName](req, res, next);
   } else {
-    res.send({
-      code : 501,
-      mes : '服务异常'
-    })
     throw new Error(`Request Method ${controllerName} [${actionName}]`);
   }
 })

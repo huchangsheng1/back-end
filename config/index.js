@@ -1,6 +1,6 @@
 module.exports = {
     db:{    //数据库配置文件
-        host:'localhost',
+        host:'180.163.101.11',
         port:3306,
         user:'root',
         password:'hcs2000.',
@@ -8,7 +8,7 @@ module.exports = {
         charset:'utf8',
         acquireTimeout:'15000'
     },
-    baseUrl :'hcs998.top'
+    baseUrl :'http://api.hcs998.top'
     ,
     token: {                                //token验证
         secretkey: 'jwtkey',                  //秘钥

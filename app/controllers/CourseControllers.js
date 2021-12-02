@@ -61,6 +61,7 @@ let CourseControllers = {
     post_editcourses: function (req, res, next) {
         let editcourses_data = req.body
         
+   
         if (Object.values(editcourses_data).some((i) => i === undefined)) {
             res.send({
                 code:404,
@@ -240,7 +241,6 @@ let CourseControllers = {
 
     //添加节
     post_addsection(req, res, next) {
-
 
         course_model.addsection(req.body).then(
             result => {

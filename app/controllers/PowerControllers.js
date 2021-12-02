@@ -70,7 +70,7 @@ let PowerControllers = {
                 code:503,
                 mes : 'power the name is null'
             })
-            return; 
+            return;
         }
         try {
             power_model.palterModel(req.body,req).then(response => {
