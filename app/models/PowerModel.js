@@ -145,7 +145,6 @@ let PowerModel = {
             }
         })
     },
-
     //权限表添加权限
     paddModel: function (p_name,p_key,menu,purl,req) {
         return new Promise(async (resolve, reject) => {
