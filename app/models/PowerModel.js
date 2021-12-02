@@ -278,8 +278,6 @@ let PowerModel = {
             .then(res => {
                 result = res;
             });
-        
-        
         for (let x = 0; x < result.length; x++) {
             await this.mydb.select('st_power', ['p_id', 'p_name', 'p_key'], 'p_key=? and menu=0', [result[x].p_id])
                 .then(
