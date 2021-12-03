@@ -1,15 +1,14 @@
 module.exports = {
     db:{    //数据库配置文件
-        host:'180.163.101.11',
+        host:'localhost',
         port:3306,
         user:'root',
-        password:'hcs2000.',
-        database:'education',
+        password:'wl187325.',
+        database:'OnlineEducation',
         charset:'utf8',
         acquireTimeout:'15000'
     },
-    baseUrl :'http://localhost:3000'
-    ,
+    baseUrl :'http://api.amzw.top',
     token: {                                //token验证
         secretkey: 'jwtkey',                  //秘钥
         iat: Math.ceil(Date.now() / 1000),    //生效时间
